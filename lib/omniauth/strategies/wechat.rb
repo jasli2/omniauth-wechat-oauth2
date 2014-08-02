@@ -27,9 +27,9 @@ module OmniAuth
           province:   raw_info['province'],
           city:       raw_info['city'],
           country:    raw_info['country'],
-          headimgurl: raw_info['headimgurl']
-          scope:      raw_info['scope']
-          errcode:    raw_info['errcode']
+          headimgurl: raw_info['headimgurl'],
+          scope:      raw_info['scope'],
+          errcode:    raw_info['errcode'],
           errmsg:     raw_info['errmsg']
         }
       end
