@@ -51,21 +51,19 @@ module OmniAuth
         @uid ||= access_token["openid"]
         @raw_info ||= begin
           access_token.options[:mode] = :query
-          if access_token["scope"] == "snsapi_userinfo"
-            @raw_info = access_token.get("/sns/userinfo", :params => {"openid" => @uid}, parse: :json).parsed
-          else
-            @raw_info = {"openid" => @uid }
-          end
+          @raw_info = access_token.get("/sns/userinfo", :params => {"openid" => @uid, "lang" => "zh_CN"}, parse: :json).parsed
+          @raw_info["openid"] = @uid
+          @raw_info
         end
       end
 
       protected
       def build_access_token
         params = {
-          'appid' => client.id, 
+          'appid' => client.id,
           'secret' => client.secret,
           'code' => request.params['code'],
-          'grant_type' => 'authorization_code' 
+          'grant_type' => 'authorization_code'
           }.merge(token_params.to_hash(symbolize_keys: true))
         client.get_token(params, deep_symbolize(options.auth_token_params))
       end
