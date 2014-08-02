@@ -28,6 +28,9 @@ module OmniAuth
           city:       raw_info['city'],
           country:    raw_info['country'],
           headimgurl: raw_info['headimgurl']
+          scope:      raw_info['scope']
+          errcode:    raw_info['errcode']
+          errmsg:     raw_info['errmsg']
         }
       end
 
@@ -53,6 +56,7 @@ module OmniAuth
           access_token.options[:mode] = :query
           @raw_info = access_token.get("/sns/userinfo", :params => {"openid" => @uid, "lang" => "zh_CN"}, parse: :json).parsed
           @raw_info["openid"] = @uid
+          @raw_info["scope"] = access_token["scope"]
           @raw_info
         end
       end
