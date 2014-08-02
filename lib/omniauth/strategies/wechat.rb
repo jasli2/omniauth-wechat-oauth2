@@ -12,9 +12,7 @@ module OmniAuth
         token_method:  :get
       }
 
-      option :authorize_params, {
-        scope: options[:scope].nil? ? "snsapi_userinfo" : options[:scope]
-      }
+      option :authorize_params, { scope: "snsapi_userinfo" }
 
       option :token_params, {parse: :json}
 
@@ -35,6 +33,12 @@ module OmniAuth
 
       extra do
         {raw_info: raw_info}
+      end
+
+      def authorize_params
+        super.tap do |params|
+          params[:scope] = request.params["scope"].blank? ? "snsapi_userinfo" : request.params["scope"]
+        end
       end
 
       def request_phase
